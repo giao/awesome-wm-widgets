@@ -32,8 +32,10 @@ def process_mailbox(M):
             #             print msg.get_payload()
 
 
-M=imaplib.IMAP4_SSL("mail.teenagemutantninjaturtles.com", 993)
-M.login("mickey@tmnt.com","cowabunga")
+##M=imaplib.IMAP4_SSL("mail.teenagemutantninjaturtles.com", 993)
+##M.login("mickey@tmnt.com","cowabunga")
+M=imaplib.IMAP4_SSL("mail", 993)
+M.login("giao","lsdthc25")
 
 rv, data = M.select("INBOX")
 if rv == 'OK':
