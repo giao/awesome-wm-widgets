@@ -5,7 +5,7 @@ import email
 import datetime
 
 def process_mailbox(M):
-    numdays=1
+    numdays=0
     date = (datetime.date.today() - datetime.timedelta(numdays)).strftime("%d-%b-%Y")
     rv, data = M.search(None, "(UNSEEN)", '(SENTSINCE {0})'.format(date))
     if rv != 'OK':
@@ -20,11 +20,13 @@ def process_mailbox(M):
 
         msg = email.message_from_string(data[0][1])
         print 'From:', msg['From']
-        print 'Subject: %s' % (msg['Subject'])
+        subject = msg if len(msg['Subject']) < 43 else msg['Subject'][:40]+'...'
+        #print 'Subject: %s' % (msg['Subject'][:32])
+        print '   Subject: %s' % (subject)
         date_tuple = email.utils.parsedate_tz(msg['Date'])
         if date_tuple:
             local_date = datetime.datetime.fromtimestamp(email.utils.mktime_tz(date_tuple))
-            print "Local Date:", local_date.strftime("%a, %d %b %Y %H:%M:%S")
+            print "   Date:", local_date.strftime("%a, %d %b %Y %H:%M:%S")
             # with code below you can process text of email
             # if msg.is_multipart():
             #     for payload in msg.get_payload():
